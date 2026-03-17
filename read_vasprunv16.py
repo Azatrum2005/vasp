@@ -8,7 +8,6 @@ from mpl_toolkits.mplot3d import Axes3D
 from itertools import combinations
 import warnings
 
-# Suppress matplotlib warnings for cleaner output
 warnings.filterwarnings('ignore', category=UserWarning)
 
 class VASPXMLParser:
@@ -23,10 +22,8 @@ class VASPXMLParser:
         self.xml_path = xml_path
         self.output_dir = output_dir or os.path.join(os.path.dirname(xml_path), "vasp_analysis_nb_mos2")
         
-        # Create output directory
         os.makedirs(self.output_dir, exist_ok=True)
         
-        # Initialize all data containers
         self.tree = None
         self.root = None
         self.system_info = {}
@@ -83,7 +80,6 @@ class VASPXMLParser:
         self.magnetic_moments = []
         
         for calc in self.root.findall(".//calculation"):
-            # Try to find magnetic moments in different possible locations
             magmom_data = []
             
             # Method 1: Look for varray with name='magmom'
@@ -122,7 +118,6 @@ class VASPXMLParser:
                             set_elem = array_elem.find("set")
                             if set_elem is not None:
                                 # This might contain spin-polarized DOS data
-                                # For simplicity, we'll note that spin-polarized calculation was done
                                 magmom_data = ["spin_polarized"]
             
             if magmom_data:
@@ -130,7 +125,6 @@ class VASPXMLParser:
         
         print(f"Found magnetic moments for {len(self.magnetic_moments)} steps")
         if self.magnetic_moments:
-            # Check if we have per-atom moments or total moments
             if isinstance(self.magnetic_moments[0], list) and len(self.magnetic_moments[0]) > 1:
                 print(f"Per-atom magnetic moments available ({len(self.magnetic_moments[0])} atoms)")
             else:
@@ -179,7 +173,6 @@ class VASPXMLParser:
             for n_atoms_type, symbol in self.atom_types:
                 self.atom_symbols.extend([symbol] * n_atoms_type)
         
-        # Fallback if no atom info found
         if not self.atom_symbols and self.n_atoms > 0:
             self.atom_symbols = [f"Atom{i+1}" for i in range(self.n_atoms)]
         
@@ -361,7 +354,7 @@ class VASPXMLParser:
                     }
                     print(f"Total DOS: {len(energies)} points")
             
-            # Extract partial DOS (projected DOS) if available - try multiple approaches
+            # Extract partial DOS (projected DOS) if available
             self.extract_partial_dos_comprehensive(dos_elem)
         
         if np.isnan(self.fermi_energy):
@@ -1853,21 +1846,20 @@ class VASPXMLParser:
         self.extract_forces_positions()
         self.extract_stress()
         self.extract_electronic_structure()
-        self.extract_magnetic_moments()  # NEW: Extract magnetic moments
+        self.extract_magnetic_moments() 
         self.calculate_derived_quantities()
         
         # Generate all plots
         print("\nGenerating plots...")
         self.plot_energy_convergence()
         self.plot_forces_convergence()
-        self.plot_band_structure()  # UPDATED: Now includes VBM/CBM labeling
+        self.plot_band_structure() 
         self.plot_density_of_states()  # Includes PDOS plots
         self.plot_stress_evolution()
         self.plot_atomic_positions()
         self.plot_bond_lengths_and_angles()
         self.plot_magnetic_moments()  # NEW: Plot magnetic moments
-        
-        # Generate summary
+
         self.generate_summary()
 
 
@@ -1899,7 +1891,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # If run as script, use command line arguments
     if len(sys.argv) > 1:
         main()
     else:
