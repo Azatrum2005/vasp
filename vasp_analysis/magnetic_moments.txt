@@ -1,0 +1,6 @@
+Magnetic Moments Data
+========================================
+Total magnetic moments (micro B)
+----------------------------------------
+Step    Magnetic_Moment
+1       N/A
