@@ -70,7 +70,6 @@ def plot_phonon_dispersion_correct(
 
 
 # ======================
-# Example for your path:
 # Γ → X → K → Γ → L
 # ======================
 
