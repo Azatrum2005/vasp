@@ -4,7 +4,6 @@ from pymatgen.electronic_structure.plotter import BSPlotter, DosPlotter
 import numpy as np
 
 # Load the vasprun.xml file
-print("Loading vasprun.xml file...")
 vasprun = Vasprun("vasprun.xml")
 
 # 1. Plot Band Structure
@@ -106,5 +105,3 @@ if hasattr(vasprun, 'ionic_steps') and vasprun.ionic_steps:
     plt.tight_layout()
     plt.savefig("band_dos/convergence.png", dpi=300)
     plt.show()
-
-print("\nAll plots generated successfully!")
