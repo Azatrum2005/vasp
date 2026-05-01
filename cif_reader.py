@@ -1,8 +1,8 @@
 import os
 
 # Source and destination directories
-src_dir = "LCMGM_novel_materials/CIFs"
-dst_dir = "LCMGM_novel_materials/named_cif"
+src_dir = "/CIFs"
+dst_dir = "/named_cif"
 
 # Create destination directory if it doesn't exist
 os.makedirs(dst_dir, exist_ok=True)
